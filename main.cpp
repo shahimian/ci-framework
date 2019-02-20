@@ -1,21 +1,15 @@
-#include <iostream>
 #include "list.h"
+#include <iostream>
 #include "rec.h"
 
 using namespace std;
 
-void f(List<int>&, List<Rec>&);
-
 int main()
 {
-    List<Rec> lr(Rec(1, "ali"));
-    List<int> li(8);
-    f(li, lr);
+    List<Rec> *lr = new List<Rec>(Rec(1, "Manager"));
+    lr->suc(Rec(2, "Employee"));
+    lr->suc(Rec(3, "Worker"));
+    lr->print_all();
     return 0;
 }
 
-void f(List<int>& li, List<Rec>& lr)
-{
-    li.print_all();
-    lr.print_all();
-};
