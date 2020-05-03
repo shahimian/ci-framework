@@ -35,6 +35,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 
 	/* zero out the struct and set the stuff we want to modify */
 	memset(&wc,0,sizeof(wc));
+	wc.style		 = CS_HREDRAW | CS_VREDRAW;
 	wc.cbSize		 = sizeof(WNDCLASSEX);
 	wc.lpfnWndProc	 = WndProc; /* This is where we will send messages to */
 	wc.hInstance	 = hInstance;
@@ -74,3 +75,4 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 	}
 	return msg.wParam;
 }
+
