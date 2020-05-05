@@ -53,9 +53,9 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 }
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
-	static int	cxChar, cyChar, cxCaps;
+	static int	cxChar, cyChar, cxCaps, iVscrollPos, cyClient;
 	TCHAR		szBuffer[10];
-	int			i = 0;
+	int			i = 0, y;
 	TEXTMETRIC	tm;
 	HDC			hdc;
 	PAINTSTRUCT	ps;
@@ -67,15 +67,46 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 			cxCaps = (tm.tmPitchAndFamily & 1 ? 3 : 2) * cxChar / 2;
 			cyChar = tm.tmHeight + tm.tmExternalLeading;
 			ReleaseDC(hwnd, hdc);
+			SetScrollRange(hwnd, SB_VERT, 0, NUMLINES - 1, FALSE);
+			SetScrollPos(hwnd, SB_VERT, iVscrollPos, TRUE);
+			return 0;
+		case WM_SIZE:
+			cyClient = HIWORD(wParam);
+			return 0;
+		case WM_VSCROLL:
+			switch(LOWORD(wParam)){
+				case SB_LINEUP:
+					iVscrollPos -= 1;
+					break;
+				case SB_LINEDOWN:
+					iVscrollPos += 1;
+					break;
+				case SB_PAGEUP:
+					iVscrollPos -= cyClient / cyChar;
+					break;
+				case SB_PAGEDOWN:
+					iVscrollPos += cyClient / cyChar;
+					break;
+				case SB_THUMBPOSITION:
+					iVscrollPos = HIWORD(wParam);
+					break;
+				default:
+					break;
+			}
+			iVscrollPos = max(0, min(iVscrollPos, NUMLINES - 1));
+			if(iVscrollPos != GetScrollPos(hwnd, SB_VERT)){
+				SetScrollPos(hwnd, SB_VERT, iVscrollPos, TRUE);
+				InvalidateRect(hwnd, NULL, TRUE);
+			}
 			return 0;
 		case WM_PAINT:
 			hdc = BeginPaint(hwnd, &ps);
-			TextOut(hdc, 0, 50, sysmetrics[i].szLabel, lstrlen(sysmetrics[i].szLabel));
 			for(i = 0; i < NUMLINES; i++){
-				TextOut(hdc, 0, cyChar * i, sysmetrics[i].szLabel, lstrlen(sysmetrics[i].szLabel));
-				TextOut(hdc, 22 * cxCaps, cyChar * i, sysmetrics[i].szDesc, lstrlen(sysmetrics[i].szDesc));
+				y = cyChar * ( i - iVscrollPos );
+				TextOut(hdc, 0, y, sysmetrics[i].szLabel, lstrlen(sysmetrics[i].szLabel));
+				TextOut(hdc, 22 * cxCaps, y, sysmetrics[i].szDesc, lstrlen(sysmetrics[i].szDesc));
 				SetTextAlign(hdc, TA_RIGHT | TA_TOP);
-				TextOut(hdc, 22 * cxCaps + 40 * cxChar, cyChar * i, szBuffer, wsprintf(szBuffer, TEXT("%5d"), GetSystemMetrics(sysmetrics[i].iIndex)));
+				TextOut(hdc, 22 * cxCaps + 40 * cxChar, y, szBuffer, wsprintf(szBuffer, TEXT("%5d"), GetSystemMetrics(sysmetrics[i].iIndex)));
 				SetTextAlign(hdc, TA_LEFT | TA_TOP);
 			}
 			EndPaint(hwnd, &ps);
