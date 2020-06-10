@@ -1,7 +1,7 @@
 [Project]
-FileName=devcaps1.dev
-Name=devcaps1
-Type=0
+FileName=cpC.dev
+Name=cpC
+Type=1
 Ver=2
 ObjFiles=
 Includes=
@@ -23,12 +23,12 @@ OverrideOutputName=
 HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
-CommandLine=
+CommandLine=hello.txt .\hello1.txt
 Folders=
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
-CompilerSettings=0000000000000000000010000
+CompilerSettings=0000000000000000000000000
 UnitCount=1
 
 [VersionInfo]

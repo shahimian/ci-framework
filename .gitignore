@@ -1,0 +1,7 @@
+/win-api/devcaps1/*.exe
+/win-api/devcaps1/*.o
+/win-api/devcaps1/*.win
+*.exe
+*.layout
+Makefile.win
+*.o
