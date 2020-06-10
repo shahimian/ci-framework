@@ -1,6 +1,6 @@
 [Project]
-FileName=LineDemo.dev
-Name=LineDemo
+FileName=Bezier.dev
+Name=Bezier
 Type=0
 Ver=2
 ObjFiles=
@@ -24,12 +24,12 @@ HostApplication=
 UseCustomMakefile=0
 CustomMakefile=
 CommandLine=
-Folders=
+Folders=header
 IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=1
+UnitCount=2
 
 [VersionInfo]
 Major=1
@@ -49,6 +49,16 @@ ProductName=
 ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=1
+
+[Unit2]
+FileName=header.h
+CompileCpp=1
+Folder=header
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
 
 [Unit1]
 FileName=main.cpp
