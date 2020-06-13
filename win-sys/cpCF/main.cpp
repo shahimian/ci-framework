@@ -9,13 +9,9 @@ int _tmain(int argc, LPTSTR argv[]) {
 		printf("Usage: cpCF file count\n");
 		return 1;
 	}
-	char buffer[10];
-	for(int i = 1; i <= atoi(argv[2]); i++){
-		sprintf(buffer, "%d", i);
-		if(!CopyFile(argv[1], (LPCSTR)buffer, FALSE)){
-			printf("CopyFile Error: %x\n", GetLastError());
-			return 2;
-		}
+	if(!CopyFile(argv[1], argv[2], FALSE)){
+		printf("CopyFile Error: %x\n", GetLastError());
+		return 2;
 	}
 	return 0;
 }
