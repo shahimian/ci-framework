@@ -1,12 +1,12 @@
 [Project]
-FileName=typer.dev
-Name=typer
+FileName=math.dev
+Name=math
 Type=0
 Ver=2
 ObjFiles=
 Includes=
 Libs=
-PrivateResource=
+PrivateResource=math_private.rc
 ResourceIncludes=
 MakeIncludes=
 Compiler=
@@ -29,7 +29,7 @@ IncludeVersionInfo=0
 SupportXPThemes=0
 CompilerSet=0
 CompilerSettings=0000000000000000000000000
-UnitCount=1
+UnitCount=3
 
 [VersionInfo]
 Major=1
@@ -39,14 +39,14 @@ Build=0
 LanguageID=1033
 CharsetID=1252
 CompanyName=
-FileVersion=1.0.0.0
+FileVersion=
 FileDescription=Developed using the Dev-C++ IDE
 InternalName=
 LegalCopyright=
 LegalTrademarks=
 OriginalFilename=
 ProductName=
-ProductVersion=1.0.0.0
+ProductVersion=
 AutoIncBuildNr=0
 SyncProduct=1
 
@@ -54,6 +54,34 @@ SyncProduct=1
 FileName=main.cpp
 CompileCpp=1
 Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit2]
+FileName=resource.h
+CompileCpp=1
+Folder=
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit3]
+FileName=resource.rc
+Folder=Resources
+Compile=1
+Link=1
+Priority=1000
+OverrideBuildCmd=0
+BuildCmd=
+
+[Unit5]
+FileName=math_private.rc
+Folder=Resources
 Compile=1
 Link=1
 Priority=1000

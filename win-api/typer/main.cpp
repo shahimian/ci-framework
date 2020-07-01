@@ -16,6 +16,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 	PAINTSTRUCT ps;
 	TEXTMETRIC tm;
 	
+	DWORD iFamily = FIXED_PITCH;
+	
 	switch(Message) {
 
 		case WM_INPUTLANGCHANGE:
@@ -23,7 +25,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 			// fall through
 		case WM_CREATE:
 			hdc = GetDC (hwnd) ;
-			SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, FIXED_PITCH, NULL)) ;
+			SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, iFamily, NULL)) ;
 			GetTextMetrics (hdc, &tm) ;
 			cxChar = tm.tmAveCharWidth ;
 			cyChar = tm.tmHeight ;
@@ -82,7 +84,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 					BUFFER (cxBuffer - 1, yCaret) = ' ' ;
 					HideCaret (hwnd) ;
 					hdc = GetDC (hwnd) ;
-					SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, FIXED_PITCH, NULL)) ;
+					SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, iFamily, NULL)) ;
 				TextOut (hdc, xCaret * cxChar, yCaret * cyChar,	& BUFFER (xCaret, yCaret),cxBuffer - xCaret) ;
 				DeleteObject (SelectObject (hdc, GetStockObject (SYSTEM_FONT))) ;
 				ReleaseDC (hwnd, hdc) ;
@@ -131,8 +133,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 						BUFFER (xCaret, yCaret) = (TCHAR) wParam ;
 						HideCaret (hwnd) ;
 						hdc = GetDC (hwnd) ;
-						SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0,
-						dwCharSet, 0, 0, 0, FIXED_PITCH, NULL)) ;
+						SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, iFamily, NULL)) ;
 						TextOut (hdc, xCaret * cxChar, yCaret * cyChar, & BUFFER (xCaret, yCaret), 1) ;
 						DeleteObject (SelectObject (hdc, GetStockObject (SYSTEM_FONT))) ;
 						ReleaseDC (hwnd, hdc) ;
@@ -150,7 +151,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) 
 			return 0 ;
 		case WM_PAINT:
 			hdc = BeginPaint (hwnd, &ps) ;
-			SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, FIXED_PITCH, NULL)) ;
+			SelectObject (hdc, CreateFont (0, 0, 0, 0, 0, 0, 0, 0, dwCharSet, 0, 0, 0, iFamily, NULL)) ;
 			for (y = 0 ; y < cyBuffer ; y++)
 				TextOut (hdc, 0, y * cyChar, & BUFFER(0,y), cxBuffer) ;
 			DeleteObject (SelectObject (hdc, GetStockObject (SYSTEM_FONT))) ;
