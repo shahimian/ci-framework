@@ -1,9 +1,50 @@
 #include <windows.h>
 
+#define MAXPOINTS 1000
+
 /* This is where all the input to the window goes to */
 LRESULT CALLBACK WndProc(HWND hwnd, UINT Message, WPARAM wParam, LPARAM lParam) {
+	
+	static POINT pt[MAXPOINTS] ;
+	static int iCount ;
+	HDC hdc ;
+	int i, j ;
+	PAINTSTRUCT ps ;
+	
 	switch(Message) {
 		
+		case WM_LBUTTONDOWN:
+			iCount = 0 ;
+			InvalidateRect (hwnd, NULL, TRUE) ;
+			return 0 ;
+		case WM_MOUSEMOVE:
+			if (wParam & MK_LBUTTON && iCount < 1000)
+			{
+				pt[iCount ].x = LOWORD (lParam) ;
+				pt[iCount++].y = HIWORD (lParam) ;
+				hdc = GetDC (hwnd) ;
+				SetPixel (hdc, LOWORD (lParam), HIWORD (lParam), 0) ;
+				ReleaseDC (hwnd, hdc) ;
+			}
+			return 0 ;
+		case WM_LBUTTONUP:
+			InvalidateRect (hwnd, NULL, FALSE) ;
+		return 0 ;
+			case WM_PAINT:
+			hdc = BeginPaint (hwnd, &ps) ;
+			SetCursor (LoadCursor (NULL, IDC_WAIT)) ;
+			ShowCursor (TRUE) ;
+			for (i = 0 ; i < iCount - 1 ; i++)
+				for (j = i + 1 ; j < iCount ; j++)
+				{
+					MoveToEx (hdc, pt[i].x, pt[i].y, NULL) ;
+					LineTo (hdc, pt[j].x, pt[j].y) ;
+				}
+			ShowCursor (FALSE) ;
+			SetCursor (LoadCursor (NULL, IDC_ARROW)) ;
+			EndPaint (hwnd, &ps) ;
+			return 0 ;
+				
 		/* Upon destruction, tell the main thread to stop */
 		case WM_DESTROY: {
 			PostQuitMessage(0);
